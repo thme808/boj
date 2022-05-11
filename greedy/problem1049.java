@@ -11,20 +11,30 @@ public class problem1049 {
         
         int strNeedToChange	//교체가 필요한 기타줄 수 
         	,N;	// 브랜드 수 
-        int[][] packs;	//패키지 구성(패키지 가격, 개당 가격)
+       
+        PriorityQueue<Integer> packs = new PriorityQueue<Integer>();	 // 6개 묶음 패키지 가격
+        PriorityQueue<Integer> indivs = new PriorityQueue<Integer>();	// 개당 가격
         
         strNeedToChange = Integer.parseInt(st.nextToken());
         N = Integer.parseInt(st.nextToken()); 
-        packs = new int[N][2];
         
         for(int i = 0; i < N; i++) {
         	st = new StringTokenizer(br.readLine());
-        	packs[i][0] = Integer.parseInt(st.nextToken());	//패키지 가격 
-        	packs[i][1] = Integer.parseInt(st.nextToken());	//개당 가격 
+        	
+        	packs.add(Integer.parseInt(st.nextToken()));	//패키지 가격 
+        	indivs.add(Integer.parseInt(st.nextToken()));	//개당 가격 
         }
         
-        // Comparator구현 
+        int min = 0;
         
+        int pack = packs.peek();
+    	int indiv = indivs.peek();
+    	min = Math.min( strNeedToChange % 6 == 0 ? pack * (strNeedToChange / 6) : pack * ( (strNeedToChange / 6) + 1 ) 
+		 		, indiv * strNeedToChange);
+
+		min = Math.min( min ,  pack * (strNeedToChange / 6) + indiv * (strNeedToChange % 6));
+        
+        System.out.println(min);
         
         bw.flush();
         br.close();
